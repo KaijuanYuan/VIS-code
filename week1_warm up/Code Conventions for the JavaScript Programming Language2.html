@@ -1,0 +1,397 @@
+<html>
+<head>
+<title>Code Conventions for the JavaScript Programming Language</title>
+<style>
+body {
+	background-color: antiquewhite ;
+	font-family: Palatino, serif;
+	font-size: 100%;
+	margin: 10%;
+	padding: 0;
+}
+p {
+	text-align: justify;
+}
+code, pre {
+	font-family: Consolas, monospace;
+	font-size: 100%;
+	font-style: normal;
+	font-weight: normal;
+}
+small {
+	font-style: italic;
+}
+</style>
+</head>
+<body>
+<h1> Code Conventions for the JavaScript Programming Language </h1>
+<p> This is a set of coding conventions and rules for use in JavaScript
+    programming.</p>
+<p> The long-term value of software to an organization is in direct proportion
+    to the quality of the codebase. Over its lifetime, a program will be handled
+    by many pairs of hands and eyes. If a program is able to clearly communicate
+    its structure and characteristics, it is less likely that it will break when
+    modified in the never-too-distant future.  Code conventions can help in
+    reducing the brittleness of programs. </p>
+<p> All of our JavaScript code is sent directly to the public. It should always
+    be of publication quality.  Neatness counts. </p>
+<h2 id="files"> JavaScript Files </h2>
+<p> JavaScript programs should be stored in and delivered as <code>.js</code>
+    files.</p>
+<p> JavaScript code should not be embedded in HTML files unless the code is
+    specific to a single session. Code in HTML adds significantly to pageweight
+    with no opportunity for mitigation by caching and compression. </p>
+<h2 id="whitespace"> Whitespace</h2>
+<p> Where possible, these rules are consistent with centuries of good practice
+    with literary style. Deviations from literary style should only be tolerated
+if there is strong evidence of a significant benefit.</p>
+<p> Blank lines improve readability by setting off sections of code that are
+logically related. </p>
+<p> Blank spaces should always be used in the following circumstances: </p>
+<ul>
+  <li> A keyword followed by <code>(</code>&nbsp;<small>left parenthesis</small>
+  should be separated by a space. Spaces are used to make things that are not
+  invocations look less like invocations, so for example, there should be space
+  after <code>if</code> or <code>while</code>.</li>
+</ul>
+<pre>
+        while (true) {
+</pre>
+<ul>
+  <li> A blank space should not be used between a function value and its invoking
+  <code>(</code>&nbsp;<small>left parenthesis</small>. This helps to distinguish
+  between keywords and function invocations.</li>
+  <li> The word <code>function</code> is always followed with one space.</li>
+  <li> No space should separate a unary operator and its operand except
+    when the operator is a word such as <code>typeof</code>.</li>
+  <li> All binary operators should be separated from their operands
+    by a space on each side except <code>.</code>&nbsp;<small>period</small> and
+  <code>(</code>&nbsp;<small>left parenthesis</small> and
+  <code>[</code>&nbsp;<small>left bracket</small>.</li>
+  <li> Every , <small>comma</small> should be followed by a space or a line
+  break.</li>
+  <li> Each ; <small>semicolon</small> at the end of a statement should be followed
+  with a line break.</li>
+  <li> Each ; <small>semicolon</small> in the control part of a <code>for</code>
+  statement should be followed with a space.</li>
+</ul>
+<p> Every statement should begin aligned with the current indentation. The outermost
+    level is at the left margin. The <span id="indentation">indentation</span>
+    increases by 4 spaces when the last token on the previous line is
+    <code>{</code>&nbsp;<small>left brace</small>,
+    <code>[</code>&nbsp;<small>left bracket</small>,
+    <code>(</code>&nbsp;<small>left paren</small>. The matching closing
+    token will be the first token on a line, restoring the previous
+indentation.</p>
+<p> The ternary operator can be visually confusing, so
+    <code>?</code>&nbsp;<small>question mark</small> always begins a line and
+    increase the indentation by 4 spaces, and
+    <code>:</code>&nbsp;<small>colon</small> always begins a line, aligned with
+    the <code>?</code>&nbsp;<small>question mark</small>. The condition should be wrapped in parens.</p>
+<pre>    var integer = function (
+        value,
+        default_value
+    ) {
+        value = resolve(value);
+        return (typeof value === "number")
+            ? Math.floor(value)
+            : (typeof value === "string")
+                ? value.charCodeAt(0)
+                : default_value;
+    };</pre>
+<p>If <code>.</code>&nbsp;<small>period</small> is the first character on a line,
+    the indentation is increased by 4 spaces.</p>
+<p> Avoid excessively long lines. When a statement will not fit nicely on a
+    single line, it may be necessary to break it. It is best to break after a
+    <code>{</code>&nbsp;<small>left brace</small>,
+    <code>[</code>&nbsp;<small>left bracket</small>,
+    <code>(</code>&nbsp;<small>left paren</small>,
+    <code>,</code>&nbsp;<small>comma</small>, or before a
+    <code>.</code>&nbsp;<small>period</small>,
+    <code>?</code>&nbsp;<small>question mark</small>, or
+    <code>:</code>&nbsp;<small>colon</small>. If such a break is not feasible,
+    then break after an operator and continue on the next line with 8 spaces
+    added to the current indentation. Those 8 spaces do not change the current
+    indentation.</p>
+<p> Clauses (<code>case</code>, <code>catch</code>, <code>default</code>,
+    <code>else</code>, <code>finally</code>) are not statements and so should
+    not be indented like statements.</p>
+<p> Tabs and spaces should not be mixed. We should pick just one in order to
+    avoid the problems that come from having both. Personal preference is an
+    extremely unreliable criteria. Neither the tab nor the space offers a
+    powerful advantage over the other. Fifty years ago, tab had the advantage of
+    consuming less memory, but Moore's Law has eliminated that advantage. Space
+    has one clear advantage over tab: there is still no reliable standard for
+    how many spaces a tab represents, but it is universally accepted that a
+    space occupies a space. So always use spaces. You can edit with tabs if you must,
+    but make sure it is spaces again before you commit. Maybe someday we will
+    finally get a universal standard for tabs, but until that day comes, the
+    better choice is spaces. </p>
+<h2 id="comments"> Comments </h2>
+<p> Be generous with comments. It is useful to leave information that will be read
+    at a later time by people (possibly your future self) who will need to understand
+    what you have done and why. The comments should be well-written and clear, just
+    like the code they are annotating. An occasional nugget of humor might be
+appreciated. Frustrations and resentments will not. </p>
+<p> It is important that comments be kept up-to-date. Erroneous comments can make
+programs even harder to read and understand. </p>
+<p> Make comments meaningful. Focus on what is not immediately visible. Don't
+waste the reader's time with stuff like </p>
+<pre>
+    i = 0; // Set i to zero.
+</pre>
+<p> Use line comments. </p>
+<h2 id="variable declarations"> Variable Declarations </h2>
+<p> All variables should be declared before used. JavaScript does not require
+  this, but doing so makes the program easier to read and makes it easier
+  to detect undeclared variables that may become implied. Implied global variables
+  should never be used. Use of global variables should be minimized. </p>
+<p> It is preferred that each variable declarative statement and comment. They
+should be listed in alphabetical order if possible. </p>
+<pre>
+    var currentEntry; // currently selected table entry
+    var level;        // indentation level
+    var size;         // size of table
+</pre>
+<p> A JavaScript <code>var</code> does not have block scope, so defining variables
+  in blocks can confuse programmers who are experienced with other C family languages.</p>
+<h2 id="function">Function Declarations</h2>
+<p> All functions should be declared before they are used. Inner functions
+  should follow the <code>var</code> statement. This helps make it clear
+  what variables are included in its scope. </p>
+<p> There should be no space between the name of a function and the
+    <code>(</code>&nbsp;<small>left parenthesis</small> of its parameter list. There
+    should be one space between the <code>)</code>&nbsp;<small>right parenthesis</small>
+    and the <code>{</code>&nbsp;<small>left curly brace</small> that begins the
+    statement body. The body itself is indented four spaces. The
+    <code>}</code>&nbsp;<small>right curly brace</small> is aligned with the line containing
+the beginning of the declaration of the function. </p>
+<pre>
+    function outer(c, d) {
+        var e = c * d;
+
+        function inner(a, b) {
+            return (e * a) + b;
+        }
+
+        return inner(0, 1);
+    }</pre>
+<p>This convention works well with JavaScript because in JavaScript, functions
+  and object literals can be placed anywhere that an expression is allowed.
+  It provides the best readability with inline functions and complex structures.</p>
+<pre>
+    function getElementsByClassName(className) {
+        var results = [];
+        walkTheDOM(document.body, function (node) {
+            var array;                // array of class names
+            var ncn = node.className; // the node's classname
+
+// If the node has a class name, then split it into a list of simple names.
+// If any of them match the requested name, then append the node to the list of results.
+
+            if (ncn &amp;&amp; ncn.split(" ").indexOf(className) &gt;= 0) {
+                results.push(node);
+            }
+        });
+        return results;
+    }
+</pre>
+<p> If a function literal is anonymous, there should be one space between
+  the word <code>function</code> and the <code>(</code>&nbsp;<small>left parenthesis</small>.
+  If the space is omitted, then it can appear that the function's name is
+  <code>function</code>, which is an incorrect reading.</p>
+<pre>
+    div.onclick = function (e) {
+        return false;
+    };
+
+    that = {
+        method: function () {
+            return this.datum;
+        },
+        datum: 0
+    };</pre>
+<p> Use of global functions should be minimized. </p>
+<p>When a function is to be invoked immediately, the entire invocation expression
+  should be wrapped in parens so that it is clear that the value being produced
+  is the result of the function and not the function itself.</p>
+<pre>var collection = (function () {
+    var keys = [];
+    var values = [];
+
+    return {
+        get: function (key) {
+            var at = keys.indexOf(key);
+            if (at &gt;= 0) {
+                return values[at];
+            }
+        },
+        set: function (key, value) {
+            var at = keys.indexOf(key);
+            if (at &lt; 0) {
+                at = keys.length;
+            }
+            keys[at] = key;
+            values[at] = value;
+        },
+        remove: function (key) {
+            var at = keys.indexOf(key);
+            if (at &gt;= 0) {
+                keys.splice(at, 1);
+                values.splice(at, 1);
+            }
+        }
+    };
+}());</pre>
+<h2 id="names"> Names </h2>
+<p> Names should be formed from the 26 upper and lower case letters (<code>A</code> .. <code>Z</code>, <code>a</code> .. <code>z</code>), the 10 digits (<code>0</code> .. <code>9</code>), and <code>_</code>&nbsp;<small>underbar</small>. Avoid use of international characters because they may not read well or be understood everywhere. Do not use <code>$</code>&nbsp;<small>dollar sign</small> or <code>\</code>&nbsp;<small>backslash</small> in names. </p>
+<p> Do not use <code>_</code>&nbsp;<small>underbar</small> as the first or last character of a name. It is sometimes intended to indicate privacy, but it does not actually provide privacy. If privacy is important, use closure. Avoid conventions that demonstrate a lack of competence.</p>
+<p> Most variables and functions should start with a lower case letter. </p>
+<p> Constructor functions that must be used with the <code>new</code>
+  prefix should start with a capital letter. JavaScript issues neither
+  a compile-time warning nor a run-time warning if a required <code>new</code>
+  is omitted. Bad things can happen if <code>new</code> is not used, so
+  the capitalization convention is the only defense we have. </p>
+<p> Global variables in browsers should be in all caps.</p>
+<h2 id="statements">Statements </h2>
+<h3 id="simple statements">Simple Statements </h3>
+<p> Each line should contain at most one statement. Put a <code>;</code>&nbsp;<small>semicolon</small> at the end of every simple statement. Note that an assignment statement that is assigning a function literal or object literal is still an assignment statement and must end with a semicolon. </p>
+<p> JavaScript allows any expression to be used as a statement. This can mask some errors, particularly in the presence of semicolon insertion. The only expressions that should be used as statements are assignments,  invocations, and <code>delete</code>. </p>
+<h3 id="compound statements"> Compound Statements </h3>
+<p> Compound statements are statements that contain lists of statements enclosed in <code>{ }</code>&nbsp;<small>curly braces</small>. </p>
+<ul>
+  <li> The enclosed statements should be indented four more spaces.</li>
+  <li> The <code>{</code>&nbsp;<small>left curly brace</small> should be at
+    the end of the line that begins the compound statement.</li>
+  <li> The <code>}</code>&nbsp;<small>right curly brace</small> should begin
+    a line and be indented to align with the beginning of the line containing
+    the matching <code>{</code>&nbsp;<small>left curly brace</small>.</li>
+  <li> Braces should be used around all statements, even single statements,
+    when they are part of a control structure, such as an <code>if</code>
+    or <code>for</code> statement. This makes it easier to add statements
+    without accidentally introducing bugs. </li>
+</ul>
+<h3 id="labels"> Labels </h3>
+<p> Statement labels should be avoided. Only these statements should be labeled: <code>while</code>,
+  <code>do</code>, <code>for</code>, <code>switch</code>. </p>
+<h3 id="return statement"><code>return</code> Statement </h3>
+<p> The return value expression must start on the same line as the <code>return</code> keyword in order to avoid semicolon insertion. </p>
+<h3 id="if statement"> <code>if</code> Statement </h3>
+<p> The <code>if</code> class of statements should have the following form: </p>
+<p> <code>&nbsp;&nbsp;&nbsp;&nbsp;if (</code><var>condition</var><code>)
+  {<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><var>statements</var><code><br>
+  &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;if (</code><var>condition</var><code>) {<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><var>statements</var><code><br>
+  &nbsp;&nbsp;&nbsp;&nbsp;} else {<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><var>statements</var><code><br>
+  &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;if (</code><var>condition</var><code>) {<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><var>statements</var><code><br>
+  &nbsp;&nbsp;&nbsp;&nbsp;} else if (</code><var>condition</var><code>)
+  {<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><var>statements</var><code><br>
+  &nbsp;&nbsp;&nbsp;&nbsp;} else {<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><var>statements</var><code><br>
+  &nbsp;&nbsp;&nbsp;&nbsp;}</code> </p>
+<h3 id="for statement"> <code>for</code> Statement </h3>
+<p> A <code>for</code> class of statements should have the following form: </p>
+<p> <code>&nbsp;&nbsp;&nbsp;&nbsp;for (</code><var>initialization</var><code>;
+  </code><var>condition</var><code>; </code><var>update</var><code>) {<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><var>statements</var><code><br>
+  &nbsp;&nbsp;&nbsp;&nbsp;}</code></p>
+<h3 id="while statement"> <code>while</code> Statement </h3>
+<p> A <code>while</code> statement should have the following form: </p>
+<p> <code>&nbsp;&nbsp;&nbsp;&nbsp;while (</code><var>condition</var><code>)
+  {<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><var>statements</var><code><br>
+  &nbsp;&nbsp;&nbsp;&nbsp;}</code> </p>
+<h3 id="do statement"> <code>do</code> Statement </h3>
+<p> A <code>do</code> statement should have the following form: </p>
+<p> <code>&nbsp;&nbsp;&nbsp;&nbsp;do {<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><var>statements</var><code><br>
+  &nbsp;&nbsp;&nbsp;&nbsp;} while (</code><var>condition</var><code>);</code> </p>
+<p> Unlike the other compound statements, the <code>do</code> statement
+  always ends with a <code>;</code>&nbsp;<small>semicolon</small>. </p>
+<h3 id="switch statement"> <code>switch</code> Statement </h3>
+<p> A <code>switch</code> statement should have the following form: </p>
+<p> <code>&nbsp;&nbsp;&nbsp;&nbsp;switch (</code><var>expression</var><code>) {<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;case </code><var>expression</var><code>:<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><var>statements</var><code><br>
+  &nbsp;&nbsp;&nbsp;&nbsp;default:<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><var>statements</var><code><br>
+  &nbsp;&nbsp;&nbsp;&nbsp;}
+</code></p>
+<p> Each <code>case</code> is aligned with the <code>switch</code>. This
+  avoids over-indentation. A <code>case</code> label is not a statement, and should not be indented like one.</p>
+<p> Each group of <var>statements</var> (except the <code>default</code>)
+  should end with <code>break</code>, <code>return</code>, or <code>throw</code>.
+  Do not fall through. </p>
+<h3 id="try statement"> <code>try</code> Statement </h3>
+<p> The <code>try</code> class of statements should have the following form: </p>
+<p> &nbsp;&nbsp;&nbsp;&nbsp;<code>try {</code><br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<var>statements</var><br>
+  &nbsp;&nbsp;&nbsp;&nbsp;<code>} catch (</code><var>variable</var><code>) {</code><br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<var>statements</var><br>
+  &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+  <br>
+  &nbsp;&nbsp; &nbsp;<code>try {</code><br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<var>statements</var><br>
+  &nbsp;&nbsp;&nbsp;&nbsp;<code>} catch (</code><var>variable</var><code>) {</code><br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<var>statements</var><br>
+  &nbsp;&nbsp;<code>&nbsp;} finally {</code><br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<var>statements</var><br>
+  &nbsp;&nbsp;&nbsp;&nbsp;<code>}</code> </p>
+<h3 id="continue statement"> <code>continue</code> Statement </h3>
+<p> Avoid use of the <code>continue</code> statement. It tends to obscure the
+  control flow of the function. </p>
+<h3 id="with statement"><code>with</code> Statement </h3>
+<p> The <code>with</code> statement <a href="http://yuiblog.com/blog/2006/06/01/global-domination/">should
+  not be used</a>. </p>
+<h2 id="whitespace"><code>{}</code> and <code>[]</code> </h2>
+<p> Use <code>{}</code> instead of <code>new Object()</code>. Use <code>[]</code>
+  instead of <code>new Array()</code>. </p>
+<p> Use arrays when the member names would be sequential integers. Use objects when the member names are arbitrary strings or names. </p>
+<h3> <code>,</code>&nbsp;<small>comma</small> Operator </h3>
+<p> Avoid the use of the comma operator. (This does not apply to the comma
+  separator, which is used in object literals, array literals, <code>var</code>
+  statements, and parameter lists.) </p>
+<h3>&nbsp;</h3>
+<h3> Assignment Expressions </h3>
+<p> Avoid doing assignments in the condition part of <code>if</code> and
+  <code>while</code> statements. </p>
+<p> Is </p>
+<pre>
+    if (a = b) {
+</pre>
+<p> a correct statement? Or was </p>
+<pre>
+    if (a == b) {
+</pre>
+<p> intended? Avoid constructs that cannot easily be determined to be correct. </p>
+<h3> <code>===</code> and <code>!==</code> Operators. </h3>
+<p> Use the <code>===</code> and <code>!==</code>
+  operators. The <code>==</code> and <code>!=</code> operators do type coercion and should not be used.  </p>
+<h3> Confusing Pluses and Minuses </h3>
+<p> Be careful to not follow a <code>+</code> with <code>+</code> or <code>++</code>.
+  This pattern can be confusing. Insert parens between them to make your intention
+  clear. </p>
+<pre>
+    total = subtotal + +myInput.value;
+</pre>
+<p> is better written as </p>
+<pre>
+    total = subtotal + (+myInput.value);
+</pre>
+<p> so that the <code>+ +</code> is not misread as <code>++</code>. Avoid <code>++</code>. </p>
+<h3> <code>eval</code> is Evil </h3>
+<p> The <code>eval</code> function is the most misused feature of JavaScript.
+  Avoid it. </p>
+<p> <code>eval</code> has aliases. Do not use the <code>Function</code> constructor.
+  Do not pass strings to <code>setTimeout</code> or <code>setInterval</code>.
+</p>
+</body>
+</html>

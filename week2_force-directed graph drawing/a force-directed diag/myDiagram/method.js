@@ -1,11 +1,14 @@
-var connection = [[0, 1, 0, 1, 1, 0, 0, 0], 
+var connection = [[0, 1, 1], 
+				 [1, 0, 1], 
+				 [1, 1, 0]];
+				 /*[[0, 1, 0, 1, 1, 0, 0, 0], 
 				 [1, 0, 1, 0, 0, 1, 0, 0], 
 				 [0, 1, 0, 1, 0, 0, 1, 0], 
 				 [1, 0, 1, 0, 0, 0, 0, 1],
 				 [1, 0, 0, 0, 0, 1, 0, 1],
 				 [0, 1, 0, 0, 1, 0, 1, 0],
 				 [0, 0, 1, 0, 0, 1, 0, 1],
-				 [0, 0, 0, 1, 1, 0, 1, 0]];
+				 [0, 0, 0, 1, 1, 0, 1, 0]];*/
 				/* [[0, 1, 1], 
 				 [1, 0, 1], 
 				 [1, 1, 0]];*/
@@ -21,10 +24,10 @@ var vectorC = {magnitude:0, direction:0};
 //var diagram = [node1, node2, node3];
 var diagram = [];
 var next = [];
-var REPULSION_CONSTANT = 40000;
+var REPULSION_CONSTANT = 10000;
 var ATTRACTION_CONSTANT = 0.1;//0.1
-var SPRING_LENGTH = 60;
-var ITERATION = 100;//500 threshold<10
+var SPRING_LENGTH = 80;
+var ITERATION = 500;//500 threshold<10
 var DAMPLING = 0.5;//0.5
 var N = 0;
 
@@ -90,8 +93,11 @@ function fAdd(vectorX, vectorY){
 function generatePosition(){
 	for(var i = 0; i<N; i++) {
 		var nodeN = {x:0, y:0};
-		nodeN.x = Math.floor(Math.random() * 70);
-		nodeN.y = Math.floor(Math.random() * 50);
+		//nodeN.x = Math.floor(Math.random() * 100);
+		//nodeN.y = Math.floor(Math.random() * 50);
+
+		nodeN.x = Math.round(Math.random() * 500);
+		nodeN.y = Math.round(Math.random() * 250);
 		diagram.push(nodeN);
 
 	}
@@ -146,7 +152,7 @@ function forceDirected(){
 			diagram[i].y = next[i].y;
 			//document.write("New position: " + diagram[i].x + " " + diagram[i].y + "</br>" + "</br>");
 		}
-		if(totalDisplacement < 10)
+		if(totalDisplacement < 1)
 		{
 			//document.write(loop);
 			break;
@@ -166,19 +172,43 @@ function forceDirected(){
 function boundary() {
 	var miniX = 0;
 	var miniY = 0;
+	var maxiX = 1000;
+	var maxiY = 500;
 	for(var i=0; i<N; i++) {
 		if(diagram[i].x < miniX)
 			miniX = diagram[i].x;
 		if(diagram[i].y < miniY)
 			miniY = diagram[i].y;
+		if(diagram[i].x > maxiX)
+			maxiX = diagram[i].x;
+		if(diagram[i].y > maxiY)
+			maxiY = diagram[i].y;
 	}
 
 	//document.write(miniX + " " + miniY + "</br>");
+	if((miniX<0) || (miniY<0))
+		for(var i=0; i<N; i++) {
+			diagram[i].x = diagram[i].x + Math.abs(miniX);
+			diagram[i].y = diagram[i].y + Math.abs(miniY);
+		}
 
-	for(var i=0; i<N; i++) {
-		diagram[i].x += Math.abs(miniX);
-		diagram[i].x += Math.abs(miniY);
-	}
+	if(maxiX>1000)
+		for(var i=0; i<N; i++) 
+			diagram[i].x = diagram[i].x - (maxiX-1000);
+			
+
+	if(maxiY>500)
+		for(var i=0; i<N; i++) 
+			diagram[i].y = diagram[i].y - (maxiY-500);
+		
+
+	/*for(var i=0; i<N; i++) {
+		for(var j=0; j<N; j++) {
+			document.write(diagram[i].x + "  " + diagram[i].y + "<br>");
+		}
+		
+	}*/
+
 	return;
 }
 
@@ -187,6 +217,7 @@ function draw(canId){
 
 //document.write((180.0 / Math.PI) * Math.atan2(-1000, -1000));
 	forceDirected();
+
 	var c = document.getElementById(canId);
 	var ctx = c.getContext("2d");
 	ctx.clearRect(0, 0, 1000, 500); 

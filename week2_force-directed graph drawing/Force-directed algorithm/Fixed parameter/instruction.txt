@@ -1,0 +1,7 @@
+Diagram.html is the layout file;
+Method.js is the function file;
+Seven pictures are the experiment results.
+
+
+To create a new graph, the array of nodes connection "connection" is supposed to be modified in method.js. The node number "N" is supposed to be modified in method.js. After all parameters are set, click the "Click Me!" button and the rectangular box will display the final graph. The picture can be downloaded by clicking the right mouse button and clicking download.
+

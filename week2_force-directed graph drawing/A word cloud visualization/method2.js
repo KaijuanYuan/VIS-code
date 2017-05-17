@@ -117,18 +117,55 @@ function intersection(word) {
 				//document.write("test intersection with node " + i + "</br>");
 				posC.x = overlap[i].x;
 				posC.y = overlap[i].y;
-				posD.x = overlap[i].x + overlap[i].width;
-				posD.y = overlap[i].y + overlap[i].height;
+				if(overlap[i].direction ==0) {
+					posD.x = overlap[i].x + overlap[i].width;
+					posD.y = overlap[i].y + overlap[i].height;
+				}
+				else {
+					posD.x = overlap[i].x + overlap[i].height;
+					posD.y = overlap[i].y + overlap[i].width;
+				}
 
-				if((posA.x>posC.x)&&(posA.x<posD.x)) {
-					if( (posA.y>posC.y)&&(posA.y<posD.y) || (posB.y>posC.y)&&(posB.y<posD.y))
+				if((posB.x>posC.x)&&(posB.x<posD.x) && (posB.y>posC.y)&&(posB.y<posD.y)) {
+						
 						return 1;
 				}
 				
-				if ((posB.x>posC.x)&&(posB.x<posD.x)) {
-					if( (posA.y>posC.y)&&(posA.y<posD.y) || (posB.y>posC.y)&&(posB.y<posD.y))
+				if((posA.x>posC.x)&&(posA.x<posD.x) && (posB.y>posC.y)&&(posB.y<posD.y)) {
+						
 						return 1;
 				}
+
+				if((posA.y>posC.y)&&(posA.y<posD.y) && (posB.x>posC.x)&&(posB.x<posD.x)) {
+						
+						return 1;
+				}
+
+				if((posA.x>posC.x)&&(posA.x<posD.x) && (posA.y>posC.y)&&(posA.y<posD.y)) {
+						
+						return 1;
+				}
+
+				if((posD.x>posA.x)&&(posD.x<posB.x) && (posD.y>posA.y)&&(posD.y<posB.y)) {
+						
+						return 1;
+				}
+
+				if((posC.x>posA.x)&&(posC.x<posD.x) && (posD.y>posA.y)&&(posD.y<posB.y)) {
+						
+						return 1;
+				}
+
+				if((posC.y>posA.y)&&(posC.y<posB.y) && (posD.x>posA.x)&&(posD.x<posB.x)) {
+						
+						return 1;
+				}
+
+				if((posC.x>posA.x)&&(posC.x<posB.x) && (posC.y>posA.y)&&(posC.y<posD.y)) {
+						
+						return 1;
+				}
+
 			}
 
 			
@@ -172,18 +209,55 @@ function intersection(word) {
 				//document.write("test intersection with node " + i + "</br>");
 				posC.x = overlap[i].x;
 				posC.y = overlap[i].y;
-				posD.x = overlap[i].x + overlap[i].width;
-				posD.y = overlap[i].y + overlap[i].height;
-
-				if((posA.x>posC.x)&&(posA.x<posD.x)) {
-					if( (posA.y>posC.y)&&(posA.y<posD.y) || (posB.y>posC.y)&&(posB.y<posD.y))
+				if(overlap[i].direction ==0) {
+					posD.x = overlap[i].x + overlap[i].width;
+					posD.y = overlap[i].y + overlap[i].height;
+				}
+				else {
+					posD.x = overlap[i].x + overlap[i].height;
+					posD.y = overlap[i].y + overlap[i].width;
+				}
+				
+				if((posB.x>posC.x)&&(posB.x<posD.x) && (posB.y>posC.y)&&(posB.y<posD.y)) {
+						
 						return 1;
 				}
 				
-				if ((posB.x>posC.x)&&(posB.x<posD.x)) {
-					if( (posA.y>posC.y)&&(posA.y<posD.y) || (posB.y>posC.y)&&(posB.y<posD.y))
+				if((posA.x>posC.x)&&(posA.x<posD.x) && (posB.y>posC.y)&&(posB.y<posD.y)) {
+						
 						return 1;
 				}
+
+				if((posA.y>posC.y)&&(posA.y<posD.y) && (posB.x>posC.x)&&(posB.x<posD.x)) {
+						
+						return 1;
+				}
+
+				if((posA.x>posC.x)&&(posA.x<posD.x) && (posA.y>posC.y)&&(posA.y<posD.y)) {
+						
+						return 1;
+				}
+
+				if((posD.x>posA.x)&&(posD.x<posB.x) && (posD.y>posA.y)&&(posD.y<posB.y)) {
+						
+						return 1;
+				}
+
+				if((posC.x>posA.x)&&(posC.x<posD.x) && (posD.y>posA.y)&&(posD.y<posB.y)) {
+						
+						return 1;
+				}
+
+				if((posC.y>posA.y)&&(posC.y<posB.y) && (posD.x>posA.x)&&(posD.x<posB.x)) {
+						
+						return 1;
+				}
+
+				if((posC.x>posA.x)&&(posC.x<posB.x) && (posC.y>posA.y)&&(posC.y<posD.y)) {
+						
+						return 1;
+				}
+
 			}
 
 			
@@ -198,6 +272,200 @@ function intersection(word) {
 
 }
 
+
+function update(word) {
+	
+	var current = {spell:"",weight:0,fontSize:0,x:0,y:0,direction:0,width:0,height:0};
+	current.spell = word.spell;
+	current.weight = word.weight;
+	current.fontSize = word.fontSize;
+	current.x = word.x;
+	current.y = word.y;
+	current.direction = word.direction;
+	current.width = word.width;
+	current.height = word.height;
+	var xPosition = 30;
+	var yPosition = 1/2*current.height;
+	var xStart = current.x;
+	var yStart = current.y;
+	var countX = 0;
+	var countY = 0;
+	var flag = 0;
+	
+	
+	
+
+	while((current.x <= winWidth-current.width) && (current.x >= 0)) {
+		//x右移
+		current.x = xStart + countX * xPosition;
+		if(intersection(current) == 0){
+			flag = 1;
+			break;
+		}
+		else{
+			current.direction =1;
+			//current.width = word.height;
+			//current.height = word.width;
+			if(intersection(current) == 0){
+				flag = 1;
+				break;
+			}
+			else{
+				current.direction =0;
+				//current.width = word.width;
+				//current.height = word.height;
+			}
+
+		}
+		countY = 1;
+		while((current.y <= winHeight-current.height) && (current.y >= 0)) {
+			//countY ++;
+			current.y = yStart + countY * yPosition;
+			if(intersection(current) == 0){
+				flag = 1;
+				break;
+			}
+			else{
+
+				current.direction =1;
+				//current.width = word.height;
+				//current.height = word.width;
+				if(intersection(current) == 0){
+					flag = 1;
+					break;
+				}
+				else{
+					current.direction =0;
+					//current.width = word.width;
+					//current.height = word.height;
+				}
+
+			}
+			//countY -- ;
+			current.y = yStart - countY * yPosition;
+			if(intersection(current) == 0){
+				flag = 1;
+				break;
+			}
+			else{
+
+				current.direction =1;
+				//current.width = word.height;
+				//current.height = word.width;
+				if(intersection(current) == 0){
+					flag = 1;
+					break;
+				}
+				else{
+					current.direction =0;
+					//current.width = word.width;
+					//current.height = word.height;
+				}
+
+			}
+			countY ++;
+
+		}
+
+		if(flag ==1) {
+			word.x = current.x;
+			word.y = current.y;
+			word.direction = current.direction;
+			return 0;
+		}
+
+		//x左移
+		current.x = xStart - countX * xPosition;
+		if(intersection(current) == 0){
+			flag = 1;
+			break;
+		}
+		else{
+
+			current.direction =1;
+			//current.width = word.height;
+			//current.height = word.width;
+			if(intersection(current) == 0){
+				flag = 1;
+				break;
+			}
+			else{
+				current.direction =0;
+				//current.width = word.width;
+				//current.height = word.height;
+			}
+
+		}
+		countY = 1;
+		while((current.y <= winHeight-current.height) && (current.y >= 0)) {
+			current.y = yStart + countY * yPosition;
+			if(intersection(current) == 0){
+				flag = 1;
+				break;
+			}
+			else{
+
+				current.direction =1;
+				//current.width = word.height;
+				//current.height = word.width;
+				if(intersection(current) == 0){
+					flag = 1;
+					break;
+				}
+				else{
+					current.direction =0;
+					//current.width = word.width;
+					//current.height = word.height;
+				}
+
+			}
+			//countY ++ ;
+			current.y = yStart - countY * yPosition;
+			if(intersection(current) == 0){
+				flag = 1;
+				break;
+			}
+			else{
+
+				current.direction =1;
+				//current.width = word.height;
+				//current.height = word.width;
+				if(intersection(current) == 0){
+					flag = 1;
+					break;
+				}
+				else{
+					current.direction =0;
+					//current.width = word.width;
+					//current.height = word.height;
+				}
+
+			}
+			countY ++;
+
+		}
+
+		if(flag ==1) {
+			word.x = current.x;
+			word.y = current.y;
+			word.direction = current.direction;
+			return 0;
+		}
+		else
+			countX ++;
+
+
+	}
+
+
+	if(flag ==1) {
+		word.x = current.x;
+		word.y = current.y;
+		word.direction = current.direction;
+		return 0;
+	}
+	return 0;
+}
 
 
 
@@ -223,7 +491,7 @@ function draw() {
 			
 			ctx.strokeRect(overlap[i].x, overlap[i].y, overlap[i].width, overlap[i].height);
 			//ctx.strokeRect(diagram[i].x, diagram[i].y, ctx.measureText(diagram[0].spell), diagram[i].fontSize);
-			ctx.fillText(overlap[i].spell, overlap[i].x, overlap[i].y + 3/4*overlap[i].fontSize);
+			ctx.fillText(overlap[i].spell, overlap[i].x, overlap[i].y + overlap[i].height);
 			//ctx.fillText(ctx.measureText(diagram[0].spell).width, diagram[0].x, diagram[0].y+diagram[0].fontSize);
 		
 		}
@@ -236,7 +504,7 @@ function draw() {
 			ctx.strokeStyle = "red";
 			ctx.font = overlap[i].fontSize + "px Arial";
 			
-			ctx.strokeRect(overlap[i].y, -overlap[i].x - 3/4*overlap[i].fontSize, overlap[i].width, overlap[i].height);
+			ctx.strokeRect(overlap[i].y, -overlap[i].x-overlap[i].width, overlap[i].width, overlap[i].height);//!!!!!
 			//ctx.strokeRect(diagram[i].x, diagram[i].y, ctx.measureText(diagram[0].spell), diagram[i].fontSize);
 			ctx.fillText(overlap[i].spell, overlap[i].y, -overlap[i].x);
 			//ctx.fillText(ctx.measureText(diagram[0].spell).width, diagram[0].x, diagram[0].y+diagram[0].fontSize);
@@ -252,6 +520,32 @@ function draw() {
 
 
 
+function nRead(nr) {
+	var con = [];
+	var wp = nr.value;
+
+	wp = wp.split(";");
+	N = wp.length;
+	for(var i=0; i<10; i++) 
+		for(var j=0; j<10; j++)
+			connection[i][j] = 0;
+
+	
+
+	for(var i=0; i<N; i++) {
+		con= wp[i].split(" ");
+		for(var j=0; j<N; j++) {
+			connection[i][j] = parseInt(con[j]);
+		}
+	}
+
+	document.getElementById("initialPos").innerHTML = N;
+	return;
+}
+
+
+
+
 function layout() {
 	
 	
@@ -260,26 +554,240 @@ function layout() {
 
 	for(var i=0;i<diagram.length;i++) {
 		makeInitialPosition(diagram[i]);
-		
+
+		document.getElementById("textar").innerHTML += "\nNow is in " + i + " node proccess";
 		if(intersection(diagram[i]) == 0) {
-			
+			document.getElementById("textar").innerHTML += "\nNode " + i + " is not intersectin with others";
 			overlap.push(diagram[i]);
 			if(diagram[i].y == midLine){
 				
 				rightBoundary = rightBoundary + diagram[i].width;
 			}
-			document.getElementById("textar").innerHTML += "\nThe word " + i + " is inserted successfully";
+			//document.getElementById("textar").innerHTML += "\nThe word " + i + " is inserted successfully";
 		}
-		else if(intersection(diagram[i]) == 1)
-			document.getElementById("textar").innerHTML += "\nThe word " + diagram[i].spell + " intersecs with others";
+		else {
+			document.getElementById("textar").innerHTML += "\nNode " + i + " is in intersectin with others";
+			update(diagram[i]);
+			overlap.push(diagram[i]);
+			//document.getElementById("textar").innerHTML += "\nThe word " + i + "'s direction is " + diagram[i].direction;
+			//document.getElementById("textar").innerHTML += "\nThe word " + i + "'s position is: " + diagram[i].x + " " + diagram[i].y;
+			//document.getElementById("textar").innerHTML += "\nThe word " + (i-1) + "'s position is: " + (diagram[i-1].x + diagram[i-1].width) + " " + diagram[i-1].y;
+
+		}
 
 	}
 	
 	
 	draw();
+
 	
 	return 0;
 }
 
 
 
+/*do{
+		current.direction == 1;
+		if(intersection(current) == 0)
+			break;
+		else
+			current.direction = 0;
+		//右移
+		current.x +=xPosition;
+		current.y -=3/4*current.fontSize;
+		if(intersection(current) == 0)
+			break;
+
+		current.y +=3/2*current.fontSize;
+		if(intersection(current) == 0)
+			break;
+
+		//归位
+		current.y -=3/4*current.fontSize;
+		current.x -=xPosition;
+		//左移
+		current.x -=xPosition;
+		current.y -=3/4*current.fontSize;
+		if(intersection(current) == 0)
+			break;
+
+		current.y +=3/2*current.fontSize;
+		if(intersection(current) == 0)
+			break;
+
+		//归位
+		current.y +=3/4*current.fontSize;
+		current.x -=xPosition;
+
+		xPosition += 1/2*ctx.measureText(word.spell).width;
+		
+	}while(intersection(current) == 1)*/
+
+
+/*
+
+function intersection(word) {
+	var c = document.getElementById("myCanvas");
+	var ctx = c.getContext("2d");
+	ctx.font = word.fontSize + "px Arial";
+	var posA = {x:0,y:0};
+	var posB = {x:0,y:0};
+	var posC = {x:0,y:0};
+	var posD = {x:0,y:0};
+	
+
+	if(word.direction == 0) {
+		
+		if(word.x <0) {
+			word.x =0;
+			
+		}		
+		else if((word.x + ctx.measureText(word.spell).width) > winWidth) {
+			word.x = (winWidth - ctx.measureText(word.spell).width);
+			
+		}
+
+		if(word.y < 0) {
+			//document.write("boundary 2 \n");
+			word.y = 0;
+		}
+		else if((word.y + 3/4*word.fontSize) > winHeight) {
+			word.y = winHeight - 3/4*word.fontSize;
+		}
+		
+                                                       
+		if(overlap.length > 0) {
+			//document.write("test for intersection\n");
+			posA.x = word.x;
+			posA.y = word.y;
+			posB.x = word.x + ctx.measureText(word.spell).width;
+			posB.y = word.y + 3/4*word.fontSize;
+			
+
+			for(var i=0; i<overlap.length; i++) {
+				//document.write("test intersection with node " + i + "</br>");
+				posC.x = overlap[i].x;
+				posC.y = overlap[i].y;
+				if(overlap[i].direction ==0) {
+					posD.x = overlap[i].x + overlap[i].width;
+					posD.y = overlap[i].y + overlap[i].height;
+				}
+				else {
+					posD.x = overlap[i].x + overlap[i].height;
+					posD.y = overlap[i].y + overlap[i].width;
+				}
+
+				if((posC.x>posA.x)&&(posC.x<posB.x)) {
+					if( (posC.y>posA.y)&&(posC.y<posB.y) || (posD.y>posA.y)&&(posD.y<posB.y))
+						return 1;
+					else
+						document.getElementById("textar").innerHTML += "\nnode C and E is not in intersection with node A and B";
+				}
+				
+				if ((posD.x>posA.x)&&(posD.x<posB.x)) {
+					if( (posC.y>posA.y)&&(posC.y<posB.y) || (posD.y>posA.y)&&(posD.y<posB.y))
+						return 1;
+					else
+						document.getElementById("textar").innerHTML += "\nnode D and F is not in intersection with node A and B";
+				
+				}
+
+				if ((posA.x>posC.x)&&(posA.x<posD.x) || (posA.y>posC.y)&&(posA.y<posD.y)) {
+						return 1;
+				}
+				else
+					document.getElementById("textar").innerHTML += "\nnode A is not in intersection with node C and D";
+			
+
+				if ((posB.x>posC.x)&&(posB.x<posD.x) || (posB.y>posC.y)&&(posBy<posD.y)) {
+						return 1;
+				}
+				else
+					document.getElementById("textar").innerHTML += "\nnode B is not in intersection with node C and D";
+			
+			}
+
+			
+			return 0;
+		}
+		else {
+			//document.write("no intersection\n");
+			return 0;
+		}
+	
+	}
+	else if(word.direction == 1) {
+		
+		if(word.x <0) {
+			word.x =0;
+			
+		}		
+		else if((word.x + 3/4*word.fontSize) > winWidth) {
+			word.x = (winWidth - 3/4*word.fontSize);
+			
+		}
+
+		if(word.y < 0) {
+			//document.write("boundary 2 \n");
+			word.y = 0;
+		}
+		else if((word.y + ctx.measureText(word.spell).width) > winHeight) {
+			word.y = winHeight - ctx.measureText(word.spell).width;
+		}
+		
+                                                       
+		if(overlap.length > 0) {
+			//document.write("test for intersection\n");
+			posA.x = word.x;
+			posA.y = word.y;
+			posB.x = word.x + 3/4*word.fontSize;
+			posB.y = word.y + ctx.measureText(word.spell).width;
+			
+
+			for(var i=0; i<overlap.length; i++) {
+				//document.write("test intersection with node " + i + "</br>");
+				posC.x = overlap[i].x;
+				posC.y = overlap[i].y;
+				if(overlap[i].direction ==0) {
+					posD.x = overlap[i].x + overlap[i].width;
+					posD.y = overlap[i].y + overlap[i].height;
+				}
+				else {
+					posD.x = overlap[i].x + overlap[i].height;
+					posD.y = overlap[i].y + overlap[i].width;
+				}
+				
+				if((posC.x>posA.x)&&(posC.x<posB.x)) {
+					if( (posC.y>posA.y)&&(posC.y<posB.y) || (posD.y>posA.y)&&(posD.y<posB.y))
+						return 1;
+					else
+						document.getElementById("textar").innerHTML += "\nnode A is not in intersection with node C and D";
+				}
+				
+				if ((posD.x>posA.x)&&(posD.x<posB.x)) {
+					if( (posC.y>posA.y)&&(posC.y<posB.y) || (posD.y>posA.y)&&(posD.y<posB.y))
+						return 1;
+				}
+
+				if ((posA.x>posC.x)&&(posA.x<posD.x) || (posA.y>posC.y)&&(posA.y<posD.y)) {
+						return 1;
+				}
+
+				if ((posB.x>posC.x)&&(posB.x<posD.x) || (posB.y>posC.y)&&(posBy<posD.y)) {
+						return 1;
+				}
+			}
+
+			
+			return 0;
+		}
+		else {
+			//document.write("no intersection\n");
+			return 0;
+		}
+	
+	}
+
+}
+
+*/

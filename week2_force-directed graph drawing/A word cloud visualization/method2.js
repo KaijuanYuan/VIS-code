@@ -1,4 +1,4 @@
-
+//This is the alphabetic order algorithm for layout, the final figure will range the words in their alphabetical order.
 
 var node1 = {spell:"Hi",weight:10,fontSize:20,x:20,y:100,direction:0,width:0,height:0};
 var node2 = {spell:"Bye",weight:4,fontSize:20,x:15,y:15,direction:0,width:0,height:0};
@@ -531,57 +531,6 @@ function update(word) {
 
 
 
-function draw() {
-
-	var c = document.getElementById("myCanvas");
-	var ctx = c.getContext("2d");
-
-	ctx.clearRect(0,0,winWidth,winHeight);
-	ctx.clearRect(0,0,winHeight,-winWidth);
-
-	ctx.fillStyle = "blue";
-	ctx.strokeStyle = "blue";
-	
-	
-	//ctx2.clearRect(0,0,c.width,c.height);
-
-	for(var i=0; i<overlap.length; i++) {
-		if(overlap[i].direction == 0) {
-			ctx.fillStyle = "#333333";
-			ctx.strokeStyle = "blue";
-			ctx.font = overlap[i].fontSize + "px Arial";
-			
-			//ctx.strokeRect(overlap[i].x, overlap[i].y, overlap[i].width, overlap[i].height);
-			//ctx.strokeRect(diagram[i].x, diagram[i].y, ctx.measureText(diagram[0].spell), diagram[i].fontSize);
-			ctx.fillText(overlap[i].spell, overlap[i].x, overlap[i].y + overlap[i].height);
-			//ctx.fillText(ctx.measureText(diagram[0].spell).width, diagram[0].x, diagram[0].y+diagram[0].fontSize);
-		
-		}
-
-		else if (overlap[i].direction == 1) {
-			ctx.save();
-			ctx.rotate(90*Math.PI/180);
-
-			ctx.fillStyle = "#333333";
-			ctx.strokeStyle = "red";
-			ctx.font = overlap[i].fontSize + "px Arial";
-			
-			//ctx.strokeRect(overlap[i].y, -overlap[i].x-overlap[i].height, overlap[i].width, overlap[i].height);//!!!!!
-			//ctx.strokeRect(diagram[i].x, diagram[i].y, ctx.measureText(diagram[0].spell), diagram[i].fontSize);
-			ctx.fillText(overlap[i].spell, overlap[i].y, -overlap[i].x);
-			//ctx.fillText(ctx.measureText(diagram[0].spell).width, diagram[0].x, diagram[0].y+diagram[0].fontSize);
-			
-			ctx.restore();
-		}
-	}
-	
-
-	ctx.strokeRect(10, 20, 20, 10);
-	return 0;
-}
-
-
-
 function drawSingle(word) {
 
 	var c = document.getElementById("myCanvas");
@@ -627,7 +576,7 @@ function drawSingle(word) {
 
 	
 
-	ctx.strokeRect(10, 20, 20, 10);
+	//ctx.strokeRect(10, 20, 20, 10);
 	return 0;
 }
 

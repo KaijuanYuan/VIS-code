@@ -1,3 +1,4 @@
+//This is the non-alphabetic order algorithm for layout, the final figure will range the words in random order.
 
 
 var node1 = {spell:"Hi",weight:10,fontSize:20,x:20,y:100,direction:0,width:0,height:0};
@@ -326,6 +327,7 @@ function intersection(word) {
 }
 
 
+
 function update(word) {
 	
 	var current = {spell:"",weight:0,fontSize:0,x:0,y:0,direction:0,width:0,height:0};
@@ -337,45 +339,24 @@ function update(word) {
 	current.direction = word.direction;
 	current.width = word.width;
 	current.height = word.height;
-	var xPosition = 30;
-	var yPosition = 1/2*current.height;
+	var xPosition = 10;
+	var yPosition = 1/6*current.height;
 	var xStart = current.x;
 	var yStart = current.y;
-	var countX = 0;
-	var countY = 0;
+	var count = 0;
+	
 	var flag = 0;
 	
 	
 	
 
-	while((current.x <= winWidth-current.width) && (current.x >= 0)) {
+	while((current.x <= winWidth-current.width) && (current.x >= 0) || (current.y <= winHeight-current.height) && (current.y >= 0)) {
 
-		
-		//x右移
-		current.x = xStart + countX * xPosition;
-		if(intersection(current) == 0){
-			flag = 1;
-			break;
-		}
-		else{
-			current.direction =1;
-			//current.width = word.height;
-			//current.height = word.width;
-			if(intersection(current) == 0){
-				flag = 1;
-				break;
-			}
-			else{
-				current.direction =0;
-				//current.width = word.width;
-				//current.height = word.height;
-			}
 
-		}
-		countY = 1;
-		while((current.y <= winHeight-current.height) && (current.y >= 0)) {
-			//countY ++;
-			current.y = yStart + countY * yPosition;
+
+		//y上移
+		if(current.y >= 0) {
+			current.y = yStart - count * yPosition;
 			if(intersection(current) == 0){
 				flag = 1;
 				break;
@@ -396,126 +377,148 @@ function update(word) {
 				}
 
 			}
-			//countY -- ;
-			current.y = yStart - countY * yPosition;
-			if(intersection(current) == 0){
-				flag = 1;
-				break;
-			}
-			else{
 
-				current.direction =1;
-				//current.width = word.height;
-				//current.height = word.width;
+		}
+
+
+		for(var i=0; i<count; i++) {
+			//x右移
+			if(current.x <= winWidth-current.width) {
+				current.x = current.x + xPosition;
 				if(intersection(current) == 0){
 					flag = 1;
 					break;
 				}
 				else{
-					current.direction =0;
-					//current.width = word.width;
-					//current.height = word.height;
+					current.direction =1;
+					//current.width = word.height;
+					//current.height = word.width;
+					if(intersection(current) == 0){
+						flag = 1;
+						break;
+					}
+					else{
+						current.direction =0;
+						//current.width = word.width;
+						//current.height = word.height;
+					}
+
 				}
-
 			}
-			countY ++;
-
 		}
-
 		if(flag ==1) {
 			word.x = current.x;
 			word.y = current.y;
 			word.direction = current.direction;
-			updateDirection = 1;
 			return 0;
 		}
 
-		
 
-	
-
-	
-		//x左移
-		current.x = xStart - countX * xPosition;
-		if(intersection(current) == 0){
-			flag = 1;
-			break;
-		}
-		else{
-
-			current.direction =1;
-			//current.width = word.height;
-			//current.height = word.width;
-			if(intersection(current) == 0){
-				flag = 1;
-				break;
-			}
-			else{
-				current.direction =0;
-				//current.width = word.width;
-				//current.height = word.height;
-			}
-
-		}
-		countY = 1;
-		while((current.y <= winHeight-current.height) && (current.y >= 0)) {
-			current.y = yStart + countY * yPosition;
-			if(intersection(current) == 0){
-				flag = 1;
-				break;
-			}
-			else{
-
-				current.direction =1;
-				//current.width = word.height;
-				//current.height = word.width;
+		for(var i=0; i<(count*2); i++) {
+			//y下移
+			if(current.y <= winHeight-current.height) {
+				current.y = current.y + yPosition;
 				if(intersection(current) == 0){
 					flag = 1;
 					break;
 				}
 				else{
-					current.direction =0;
-					//current.width = word.width;
-					//current.height = word.height;
+
+					current.direction =1;
+					//current.width = word.height;
+					//current.height = word.width;
+					if(intersection(current) == 0){
+						flag = 1;
+						break;
+					}
+					else{
+						current.direction =0;
+						//current.width = word.width;
+						//current.height = word.height;
+					}
+
 				}
-
 			}
-			//countY ++ ;
-			current.y = yStart - countY * yPosition;
-			if(intersection(current) == 0){
-				flag = 1;
-				break;
-			}
-			else{
-
-				current.direction =1;
-				//current.width = word.height;
-				//current.height = word.width;
-				if(intersection(current) == 0){
-					flag = 1;
-					break;
-				}
-				else{
-					current.direction =0;
-					//current.width = word.width;
-					//current.height = word.height;
-				}
-
-			}
-			countY ++;
-
 		}
-
 		if(flag ==1) {
 			word.x = current.x;
 			word.y = current.y;
 			word.direction = current.direction;
-			updateDirection = 0;
 			return 0;
 		}
-		
 
-		countX ++;
+
+
+		for(var i=0; i<(count*2); i++) {
+			//x左移
+			if(current.x >= 0) {
+				current.x = current.x - xPosition;
+				if(intersection(current) == 0){
+					flag = 1;
+					break;
+				}
+				else{
+
+					current.direction =1;
+					//current.width = word.height;
+					//current.height = word.width;
+					if(intersection(current) == 0){
+						flag = 1;
+						break;
+					}
+					else{
+						current.direction =0;
+						//current.width = word.width;
+						//current.height = word.height;
+					}
+
+				}
+
+			}
+		}
+		if(flag ==1) {
+			word.x = current.x;
+			word.y = current.y;
+			word.direction = current.direction;
+			return 0;
+		}
+
+		for(var i=0; i<(count*2); i++) {
+			//y上移
+			if(current.y >= 0) {
+				current.y = current.y- yPosition;
+				if(intersection(current) == 0){
+					flag = 1;
+					break;
+				}
+				else{
+
+					current.direction =1;
+					//current.width = word.height;
+					//current.height = word.width;
+					if(intersection(current) == 0){
+						flag = 1;
+						break;
+					}
+					else{
+						current.direction =0;
+						//current.width = word.width;
+						//current.height = word.height;
+					}
+
+				}
+
+			}
+		}
+		if(flag ==1) {
+			word.x = current.x;
+			word.y = current.y;
+			word.direction = current.direction;
+			return 0;
+		}
+
+
+		count ++;
 
 	}
 
@@ -528,58 +531,6 @@ function update(word) {
 	}
 	return 0;
 }
-
-
-
-function draw() {
-
-	var c = document.getElementById("myCanvas");
-	var ctx = c.getContext("2d");
-
-	ctx.clearRect(0,0,winWidth,winHeight);
-	ctx.clearRect(0,0,winHeight,-winWidth);
-
-	ctx.fillStyle = "blue";
-	ctx.strokeStyle = "blue";
-	
-	
-	//ctx2.clearRect(0,0,c.width,c.height);
-
-	for(var i=0; i<overlap.length; i++) {
-		if(overlap[i].direction == 0) {
-			ctx.fillStyle = "#333333";
-			ctx.strokeStyle = "blue";
-			ctx.font = overlap[i].fontSize + "px Arial";
-			
-			//ctx.strokeRect(overlap[i].x, overlap[i].y, overlap[i].width, overlap[i].height);
-			//ctx.strokeRect(diagram[i].x, diagram[i].y, ctx.measureText(diagram[0].spell), diagram[i].fontSize);
-			ctx.fillText(overlap[i].spell, overlap[i].x, overlap[i].y + overlap[i].height);
-			//ctx.fillText(ctx.measureText(diagram[0].spell).width, diagram[0].x, diagram[0].y+diagram[0].fontSize);
-		
-		}
-
-		else if (overlap[i].direction == 1) {
-			ctx.save();
-			ctx.rotate(90*Math.PI/180);
-
-			ctx.fillStyle = "#333333";
-			ctx.strokeStyle = "red";
-			ctx.font = overlap[i].fontSize + "px Arial";
-			
-			//ctx.strokeRect(overlap[i].y, -overlap[i].x-overlap[i].height, overlap[i].width, overlap[i].height);//!!!!!
-			//ctx.strokeRect(diagram[i].x, diagram[i].y, ctx.measureText(diagram[0].spell), diagram[i].fontSize);
-			ctx.fillText(overlap[i].spell, overlap[i].y, -overlap[i].x);
-			//ctx.fillText(ctx.measureText(diagram[0].spell).width, diagram[0].x, diagram[0].y+diagram[0].fontSize);
-			
-			ctx.restore();
-		}
-	}
-	
-
-	ctx.strokeRect(10, 20, 20, 10);
-	return 0;
-}
-
 
 
 function drawSingle(word) {
@@ -627,7 +578,7 @@ function drawSingle(word) {
 
 	
 
-	ctx.strokeRect(10, 20, 20, 10);
+	//ctx.strokeRect(10, 20, 20, 10);
 	return 0;
 }
 

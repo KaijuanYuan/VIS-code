@@ -16,6 +16,8 @@ var winHeight = 400;
 var midLine = winHeight / 2;
 var rightBoundary = 0;
 
+var updateDirection = 0;
+
 
 function compWeight(a,b) {
 	if(a.weight < b.weight)
@@ -42,7 +44,10 @@ function makeInitialFont() {
 	var ratio = 100/diagram[0].weight;
 	for(var i = 1; i<N; i++) {
 		diagram[i].fontSize = Math.round(ratio * diagram[i].weight);
+
 	}
+
+
 	
 	return 0;
 }
@@ -65,7 +70,11 @@ function makeInitialPosition(word) {
 
 	ctx.font = word.fontSize + "px Arial";
 	word.width =  ctx.measureText(word.spell).width;
-	word.height = 3/4*word.fontSize;
+	word.height = 9/10*word.fontSize;
+
+
+	//if(word.weight == 1 )
+	//	document.write(word.width + " " + word.height + "<br />");
 
 	//document.getElementById("textar").innerHTML += "word " + word.spell + ": x:" + word.x + " y:" + word.y; 
 
@@ -85,6 +94,29 @@ function intersection(word) {
 	var posC = {x:0,y:0};
 	var posD = {x:0,y:0};
 	
+	if((word.width)*(word.height) <= 23){
+		if(word.direction == 0) {
+			var imgData = ctx.getImageData(word.x, word.y, word.width, word.height);
+			for(var i=0;i<imgData.data.length;i+=4) {
+				if((imdData.data[i] == 51) || (imdData.data[i+1] == 51) || imdData.data[i+2] == 51 || imdData.data[i+3] == 51 )
+					return 1;
+				
+			}
+			return 0;
+		}
+		else if(word.direction == 1) {
+			var imgData = ctx.getImageData(word.x, word.y, word.height, word.width);
+			for(var i=0;i<imgData.data.length;i+=4) {
+				if((imdData.data[i] == 51) || (imdData.data[i+1] == 51) || imdData.data[i+2] == 51 || imdData.data[i+3] == 51 )
+					return 1;
+				
+			}
+			return 0;
+		}
+		
+	}
+
+
 
 	if(word.direction == 0) {
 		
@@ -101,8 +133,8 @@ function intersection(word) {
 			//document.write("boundary 2 \n");
 			word.y = 0;
 		}
-		else if((word.y + 3/4*word.fontSize) > winHeight) {
-			word.y = winHeight - 3/4*word.fontSize;
+		else if((word.y +  9/10*word.fontSize) > winHeight) {
+			word.y = winHeight -  9/10*word.fontSize;
 		}
 		
                                                        
@@ -111,7 +143,7 @@ function intersection(word) {
 			posA.x = word.x;
 			posA.y = word.y;
 			posB.x = word.x + ctx.measureText(word.spell).width;
-			posB.y = word.y + 3/4*word.fontSize;
+			posB.y = word.y +  9/10*word.fontSize;
 			
 
 			for(var i=0; i<overlap.length; i++) {
@@ -127,42 +159,52 @@ function intersection(word) {
 					posD.y = overlap[i].y + overlap[i].width;
 				}
 
-				if((posB.x>posC.x)&&(posB.x<posD.x) && (posB.y>posC.y)&&(posB.y<posD.y)) {
+				if((posB.x>posC.x)&&(posB.x<=posD.x) && (posB.y>posC.y)&&(posB.y<=posD.y)) {
 						
 						return 1;
 				}
 				
-				if((posA.x>posC.x)&&(posA.x<posD.x) && (posB.y>posC.y)&&(posB.y<posD.y)) {
+				if((posA.x>=posC.x)&&(posA.x<posD.x) && (posB.y>posC.y)&&(posB.y<=posD.y)) {
 						
 						return 1;
 				}
 
-				if((posA.y>posC.y)&&(posA.y<posD.y) && (posB.x>posC.x)&&(posB.x<posD.x)) {
+				if((posA.y>=posC.y)&&(posA.y<posD.y) && (posB.x>posC.x)&&(posB.x<=posD.x)) {
 						
 						return 1;
 				}
 
-				if((posA.x>posC.x)&&(posA.x<posD.x) && (posA.y>posC.y)&&(posA.y<posD.y)) {
+				if((posA.x>=posC.x)&&(posA.x<posD.x) && (posA.y>=posC.y)&&(posA.y<posD.y)) {
 						
 						return 1;
 				}
 
-				if((posD.x>posA.x)&&(posD.x<posB.x) && (posD.y>posA.y)&&(posD.y<posB.y)) {
+				if((posD.x>posA.x)&&(posD.x<=posB.x) && (posD.y>posA.y)&&(posD.y<=posB.y)) {
 						
 						return 1;
 				}
 
-				if((posC.x>posA.x)&&(posC.x<posD.x) && (posD.y>posA.y)&&(posD.y<posB.y)) {
+				if((posC.x>=posA.x)&&(posC.x<posB.x) && (posD.y>posA.y)&&(posD.y<=posB.y)) {
 						
 						return 1;
 				}
 
-				if((posC.y>posA.y)&&(posC.y<posB.y) && (posD.x>posA.x)&&(posD.x<posB.x)) {
+				if((posC.y>=posA.y)&&(posC.y<posB.y) && (posD.x>posA.x)&&(posD.x<=posB.x)) {
 						
 						return 1;
 				}
 
-				if((posC.x>posA.x)&&(posC.x<posB.x) && (posC.y>posA.y)&&(posC.y<posD.y)) {
+				if((posC.x>=posA.x)&&(posC.x<posB.x) && (posC.y>=posA.y)&&(posC.y<posB.y)) {
+						
+						return 1;
+				}
+
+				if((posC.x>=posA.x)&&(posC.x<=posB.x) && (posD.x>=posA.x)&&(posD.x<=posB.x) && (posC.y<=posA.y)&&(posD.y>=posB.y)) {
+						
+						return 1;
+				}
+
+				if((posA.x>=posC.x)&&(posA.x<=posD.x) && (posB.x>=posC.x)&&(posB.x<=posD.x) && (posA.y<=posC.y)&&(posB.y>=posD.y)) {
 						
 						return 1;
 				}
@@ -184,8 +226,8 @@ function intersection(word) {
 			word.x =0;
 			
 		}		
-		else if((word.x + 3/4*word.fontSize) > winWidth) {
-			word.x = (winWidth - 3/4*word.fontSize);
+		else if((word.x +  9/10*word.fontSize) > winWidth) {
+			word.x = (winWidth -  9/10*word.fontSize);
 			
 		}
 
@@ -202,8 +244,8 @@ function intersection(word) {
 			//document.write("test for intersection\n");
 			posA.x = word.x;
 			posA.y = word.y;
-			posB.x = word.x + 3/4*word.fontSize;
-			posB.y = word.y + ctx.measureText(word.spell).width;
+			posB.x = word.x + word.height;
+			posB.y = word.y + word.width;
 			
 
 			for(var i=0; i<overlap.length; i++) {
@@ -219,42 +261,52 @@ function intersection(word) {
 					posD.y = overlap[i].y + overlap[i].width;
 				}
 				
-				if((posB.x>posC.x)&&(posB.x<posD.x) && (posB.y>posC.y)&&(posB.y<posD.y)) {
+				if((posB.x>posC.x)&&(posB.x<=posD.x) && (posB.y>posC.y)&&(posB.y<=posD.y)) {
 						
 						return 1;
 				}
 				
-				if((posA.x>posC.x)&&(posA.x<posD.x) && (posB.y>posC.y)&&(posB.y<posD.y)) {
+				if((posA.x>=posC.x)&&(posA.x<posD.x) && (posB.y>posC.y)&&(posB.y<=posD.y)) {
 						
 						return 1;
 				}
 
-				if((posA.y>posC.y)&&(posA.y<posD.y) && (posB.x>posC.x)&&(posB.x<posD.x)) {
+				if((posA.y>=posC.y)&&(posA.y<posD.y) && (posB.x>posC.x)&&(posB.x<=posD.x)) {
 						
 						return 1;
 				}
 
-				if((posA.x>posC.x)&&(posA.x<posD.x) && (posA.y>posC.y)&&(posA.y<posD.y)) {
+				if((posA.x>=posC.x)&&(posA.x<posD.x) && (posA.y>=posC.y)&&(posA.y<posD.y)) {
 						
 						return 1;
 				}
 
-				if((posD.x>posA.x)&&(posD.x<posB.x) && (posD.y>posA.y)&&(posD.y<posB.y)) {
+				if((posD.x>posA.x)&&(posD.x<=posB.x) && (posD.y>posA.y)&&(posD.y<=posB.y)) {
 						
 						return 1;
 				}
 
-				if((posC.x>posA.x)&&(posC.x<posD.x) && (posD.y>posA.y)&&(posD.y<posB.y)) {
+				if((posC.x>=posA.x)&&(posC.x<posB.x) && (posD.y>posA.y)&&(posD.y<=posB.y)) {
 						
 						return 1;
 				}
 
-				if((posC.y>posA.y)&&(posC.y<posB.y) && (posD.x>posA.x)&&(posD.x<posB.x)) {
+				if((posC.y>=posA.y)&&(posC.y<posB.y) && (posD.x>posA.x)&&(posD.x<=posB.x)) {
 						
 						return 1;
 				}
 
-				if((posC.x>posA.x)&&(posC.x<posB.x) && (posC.y>posA.y)&&(posC.y<posD.y)) {
+				if((posC.x>=posA.x)&&(posC.x<posB.x) && (posC.y>=posA.y)&&(posC.y<posB.y)) {
+						
+						return 1;
+				}
+
+				if((posC.x>=posA.x)&&(posC.x<=posB.x) && (posD.x>=posA.x)&&(posD.x<=posB.x) && (posC.y<=posA.y)&&(posD.y>=posB.y)) {
+						
+						return 1;
+				}
+
+				if((posA.x>=posC.x)&&(posA.x<=posD.x) && (posB.x>=posC.x)&&(posB.x<=posD.x) && (posA.y<=posC.y)&&(posB.y>=posD.y)) {
 						
 						return 1;
 				}
@@ -297,6 +349,8 @@ function update(word) {
 	
 
 	while((current.x <= winWidth-current.width) && (current.x >= 0)) {
+
+		
 		//x右移
 		current.x = xStart + countX * xPosition;
 		if(intersection(current) == 0){
@@ -372,9 +426,15 @@ function update(word) {
 			word.x = current.x;
 			word.y = current.y;
 			word.direction = current.direction;
+			updateDirection = 1;
 			return 0;
 		}
 
+		
+
+	
+
+	
 		//x左移
 		current.x = xStart - countX * xPosition;
 		if(intersection(current) == 0){
@@ -450,11 +510,12 @@ function update(word) {
 			word.x = current.x;
 			word.y = current.y;
 			word.direction = current.direction;
+			updateDirection = 0;
 			return 0;
 		}
-		else
-			countX ++;
+		
 
+		countX ++;
 
 	}
 
@@ -490,7 +551,7 @@ function draw() {
 			ctx.strokeStyle = "blue";
 			ctx.font = overlap[i].fontSize + "px Arial";
 			
-			ctx.strokeRect(overlap[i].x, overlap[i].y, overlap[i].width, overlap[i].height);
+			//ctx.strokeRect(overlap[i].x, overlap[i].y, overlap[i].width, overlap[i].height);
 			//ctx.strokeRect(diagram[i].x, diagram[i].y, ctx.measureText(diagram[0].spell), diagram[i].fontSize);
 			ctx.fillText(overlap[i].spell, overlap[i].x, overlap[i].y + overlap[i].height);
 			//ctx.fillText(ctx.measureText(diagram[0].spell).width, diagram[0].x, diagram[0].y+diagram[0].fontSize);
@@ -505,7 +566,7 @@ function draw() {
 			ctx.strokeStyle = "red";
 			ctx.font = overlap[i].fontSize + "px Arial";
 			
-			ctx.strokeRect(overlap[i].y, -overlap[i].x-overlap[i].width, overlap[i].width, overlap[i].height);//!!!!!
+			//ctx.strokeRect(overlap[i].y, -overlap[i].x-overlap[i].height, overlap[i].width, overlap[i].height);//!!!!!
 			//ctx.strokeRect(diagram[i].x, diagram[i].y, ctx.measureText(diagram[0].spell), diagram[i].fontSize);
 			ctx.fillText(overlap[i].spell, overlap[i].y, -overlap[i].x);
 			//ctx.fillText(ctx.measureText(diagram[0].spell).width, diagram[0].x, diagram[0].y+diagram[0].fontSize);
@@ -519,6 +580,56 @@ function draw() {
 	return 0;
 }
 
+
+
+function drawSingle(word) {
+
+	var c = document.getElementById("myCanvas");
+	var ctx = c.getContext("2d");
+
+	//ctx.clearRect(0,0,winWidth,winHeight);
+	//ctx.clearRect(0,0,winHeight,-winWidth);
+
+	ctx.fillStyle = "blue";
+	ctx.strokeStyle = "blue";
+	
+	
+	//ctx2.clearRect(0,0,c.width,c.height);
+
+	
+		if(word.direction == 0) {
+			ctx.fillStyle = "#333333";
+			ctx.strokeStyle = "blue";
+			ctx.font = word.fontSize + "px Arial";
+			
+			//ctx.strokeRect(overlap[i].x, overlap[i].y, overlap[i].width, overlap[i].height);
+			//ctx.strokeRect(diagram[i].x, diagram[i].y, ctx.measureText(diagram[0].spell), diagram[i].fontSize);
+			ctx.fillText(word.spell, word.x, word.y + word.height);
+			//ctx.fillText(ctx.measureText(diagram[0].spell).width, diagram[0].x, diagram[0].y+diagram[0].fontSize);
+		
+		}
+
+		else if (word.direction == 1) {
+			ctx.save();
+			ctx.rotate(90*Math.PI/180);
+
+			ctx.fillStyle = "#333333";
+			ctx.strokeStyle = "red";
+			ctx.font = word.fontSize + "px Arial";
+			
+			//ctx.strokeRect(overlap[i].y, -overlap[i].x-overlap[i].height, overlap[i].width, overlap[i].height);//!!!!!
+			//ctx.strokeRect(diagram[i].x, diagram[i].y, ctx.measureText(diagram[0].spell), diagram[i].fontSize);
+			ctx.fillText(word.spell, word.y, -word.x);
+			//ctx.fillText(ctx.measureText(diagram[0].spell).width, diagram[0].x, diagram[0].y+diagram[0].fontSize);
+			
+			ctx.restore();
+		}
+
+	
+
+	ctx.strokeRect(10, 20, 20, 10);
+	return 0;
+}
 
 
 function pRead() {
@@ -560,25 +671,47 @@ function layout() {
 			if(diagram[i].y == midLine){
 				
 				rightBoundary = rightBoundary + diagram[i].width;
+				//rightBoundary = rightBoundary + 70;
 			}
+			drawSingle(diagram[i]);
 			//document.getElementById("textar").innerHTML += "\nThe word " + i + " is inserted successfully";
 		}
 		else {
 			document.getElementById("textar").innerHTML += "\nNode " + i + " is in intersectin with others";
 			update(diagram[i]);
 			overlap.push(diagram[i]);
-			//document.getElementById("textar").innerHTML += "\nThe word " + i + "'s direction is " + diagram[i].direction;
-			//document.getElementById("textar").innerHTML += "\nThe word " + i + "'s position is: " + diagram[i].x + " " + diagram[i].y;
-			//document.getElementById("textar").innerHTML += "\nThe word " + (i-1) + "'s position is: " + (diagram[i-1].x + diagram[i-1].width) + " " + diagram[i-1].y;
-
+			drawSingle(diagram[i]);
+			
 		}
 
 	}
 	
 	
-	draw();
+	//draw();
+
 
 	
 	return 0;
 }
 
+
+
+/*
+Test data:
+hello 10;
+world 5;
+helen 3;
+nice 7;
+is 15;
+text 30;
+visualization 20;
+data 50;
+system 17;
+hi 1;
+my 9;
+wordle 30;
+report 6;
+fighting 8;
+algorithm 2
+
+*/

@@ -1,0 +1,63 @@
+<html>
+<head>
+<script type="text/javascript" src="method.js"></script>
+<!--<script type="text/javascript" src="jquery-3.2.1.min.js"></script>-->
+<title>The bubble treemap layout algorithm</title>
+
+</head>
+
+<body>
+
+
+
+<br>
+<style>
+#a{
+	width:300px;
+	/*border:1px solid;*/
+	text-align:center;
+}
+
+#b{
+	width:300px;
+	/*border:1px solid;*/
+	text-align:right;
+}
+</style>
+
+
+<!--<form name="myForm">-->
+	<div id="b">
+		distance1 m:<input type="text" name="m" id="m"><br> 
+		width w:<input type="text" name="w" id="w"><br> 
+		distance2 p:<input type="text" name="p" id="p"><br> 
+	    smoothness s:<input type="text" name="s" id="s"><br> 
+    </div>
+   <!--  <div id="a">
+	    
+	    <input type="reset" value = "reset"><br>
+    </div> -->
+<!--</form>-->
+
+
+<button onclick = 'draw("myCanvas")'>submit</button><br>
+
+
+<canvas id = "myCanvas" width = "1000" height = "500" style="border:1px solid #000000;">
+can not support canvas
+</canvas>
+
+ 
+<textarea name="textar" id="textar" rows="10" cols="150"></textarea>  
+
+<!--
+<script>
+	draw("myCanvas");
+</script>
+-->
+
+
+
+
+</body>
+</html>

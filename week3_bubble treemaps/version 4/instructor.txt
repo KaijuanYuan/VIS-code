@@ -1,0 +1,63 @@
+This program is the realization of Algorithm 1 in bubble treemaps.
+ 
+Parameters:
+E:外壳元素的列表，即圆及其smoothness圆的集合
+circleOrigin:初始未放大圆
+circleEnlarge:通过d、s放大半径后的圆
+circleIntersect:检测到的两圆交点坐标，r为0
+turn:检测相交的最左圆时，从左至右遍历完上半圈后，下半圈初始圆在列表中的下标
+m:外壳与圆的距离
+w:外壳的宽度
+p:外壳间的距离
+d:两物体间的总距（未考虑s）
+s:smoothness参数，同时也是相切弧半径
+
+
+Function:
+//develop the object of circle
+function circle(xV, yV, radiusV)
+object circle的构造函数
+
+//Initialize the Original circle dataset
+function initial()
+初始化circleOrigin列表，并将加载到的circles push到列表中
+
+//Enlarge the original circle with d+s
+function enlarge(circleList)
+利用d和s enlarge original circles，并将结果保存在circleEnlarge中
+
+//find the circle with the leftmost extent
+function leftmostExtent(circleList)
+将circleList中的所有元素按最左边（圆心x - 半径）x值从小到大排列
+
+//find the circle with the rightmost extent
+function rightmostExtent(circleList)
+将circleList中的所有元素按最右边（圆心x + 半径）x值从大到小排列
+
+//detect the intersection point of two circles
+function intersection(circle1, circle2, loopDirection)
+检测circle1和circle2是否相交，若相交，交点坐标存到circleIntersect中，loopDirection表示检测交点的方向，若为0，则从左到右检测，交点取y值较小的那个（即上交点），反之…
+
+//find the leftmost intersection of one circle cLeft
+function leftmostIntersection(cLeft, circleList)
+遍历与当前圆相交的所有圆，找到具有最左交点的交叉圆，并将交点与该圆插入到E列表中
+
+//find the rightmost intersection of one circle cLeft
+function rightmostIntersection(cLeft, circleList)
+遍历与当前圆相交的所有圆，找到具有最右交点的交叉圆，并将交点与该圆插入到E列表中
+
+//calculate all envelopes of circles and intersection points
+function envelope()
+找到所有外轮廓圆
+
+//calculate all contours of circle and smoothness
+function contour()
+将E列表中的交点坐标变成两相邻圆的共切圆
+
+/从网页中加载参数项
+function loadFromForm()
+从网页读取参数值
+
+//draw the final circle 
+function draw(canId)
+将E中所有圆按smoothness及轮廓圆分类，并找到相邻圆切点的tan角度，画出所有弧。

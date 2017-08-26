@@ -17,11 +17,12 @@ var repulsParam = 2;//相互作用力斥力系数
 
 
 //develop the object of circle
-function circle(xV, yV, radiusV) 
+function circle(xV, yV, radiusV, time) 
 {
 	this.x = xV;
 	this.y = yV;
 	this.radius = radiusV;
+	this.timeStamp = time;
 }
 
 
@@ -33,7 +34,7 @@ function vector(ang, forc)
 }
 
 
-function initial()
+function initial(circlelists)
 {
 	//初始化螺线函数
 	for(var i=0;i<=AttriNo;i++)
@@ -48,21 +49,24 @@ function initial()
 		var AI = [];
 		var ri = 10;
 		var xita = (ri-a)/b-1/2*(T[i]+T[i+1]);
-		
 		for(var j=0;j<20;j++)
 		{
 			if(ri>centerR)
 				ri = centerR-5;
 			var x0 = ri * Math.cos(Math.abs(xita*Math.PI/180));
 			var y0 = ri * Math.sin(Math.abs(xita*Math.PI/180));
-			var attriValue = new circle(x0,y0,2+j*2);
+			var time0 = (j+1)*5;
+			var attriValue = new circle(x0,y0,2+j*2,time0);
 			AI.push(attriValue);
 
 			xita = xita+10;
 			ri = a+b*(xita+1/2*(T[i]+T[i+1]));
 		}
-		Attribute.push(AI);
+		AI.sort(function(a,b){return (a.timeStamp-b.timeStamp)});
+		circlelists.push(AI);
+
 	}
+
 	return 0;
 }
 
@@ -115,6 +119,25 @@ function getBearingAngle(nodeX, nodeY)
 }
 
 
+//求两力之和
+function fAdd(vectorX, vectorY)
+{
+	var vectorF = new vector(0,0);
+	var aX = vectorX.force * Math.cos((Math.PI / 180.0) * vectorX.angle);
+	var aY = vectorX.force * Math.sin((Math.PI / 180.0) * vectorX.angle);
+	var bX = vectorY.force * Math.cos((Math.PI / 180.0) * vectorY.angle);
+	var bY = vectorY.force * Math.sin((Math.PI / 180.0) * vectorY.angle);
+	aX = aX + bX;
+	aY = aY + bY;
+	var nodeStart = new circle(0,0,0,0);
+	var nodeEnd = new circle(aX,aY,0,0);
+	vectorF.angle = getBearingAngle(nodeStart, nodeEnd);
+	vectorF.force = calDistance(nodeStart, nodeEnd);
+	
+	return vectorF;
+}
+
+
 //求螺线边对点斥力
 function calBoundForce(nodeX, tNo, direction) 
 {
@@ -123,7 +146,9 @@ function calBoundForce(nodeX, tNo, direction)
 	var rp,rs,ru;
 	var xita,point;
 	var angl,forc;
-	var cenPoint = new circle(0,0,0);
+	var anglT, forcT;
+	var vectorBound, vectorTime;
+	var cenPoint = new circle(0,0,0,0);
 
 	cx = nodeX.x;
 	cy = nodeX.y;	
@@ -150,7 +175,7 @@ function calBoundForce(nodeX, tNo, direction)
 	 	{
 	 		Fx = (rs-nodeX.radius) * Math.cos(xita*Math.PI/180);
 			Fy = (rs-nodeX.radius) * Math.sin(xita*Math.PI/180);
-			point = new circle(Fx,Fy,0);
+			point = new circle(Fx,Fy,0,0);
 	 		angl = getBearingAngle(nodeX, point);
 			forc = rp+nodeX.radius-rs +k+boundWidth;
 			//document.getElementById('textar').innerHTML += "1ru " + angl + " " + forc + "\n";
@@ -170,13 +195,13 @@ function calBoundForce(nodeX, tNo, direction)
 			ru = a+b*(xita+T[tNo+1]);
 			Fx = rs * Math.cos(xita*Math.PI/180);
 			Fy = rs * Math.sin(xita*Math.PI/180);
-			point = new circle(Fx,Fy,0);
+			point = new circle(Fx,Fy,0,0);
 			angl = getBearingAngle(nodeX, point);
 			forc = rp + 1/2*(ru+rs) +k;
 			//document.getElementById('textar').innerHTML += "3ru " + angl + " " + forc + "\n";
 
 	 	}
-	 	
+
  	}
 	else
 	{
@@ -195,7 +220,7 @@ function calBoundForce(nodeX, tNo, direction)
 	 	{
 	 		Fx = (ru+nodeX.radius) * Math.cos(xita*Math.PI/180);
 			Fy = (ru+nodeX.radius) * Math.sin(xita*Math.PI/180);
-			point = new circle(Fx,Fy,0);
+			point = new circle(Fx,Fy,0,0);
 	 		angl = getBearingAngle(nodeX, point);
 			forc = ru+nodeX.radius-rp +k+boundWidth;
 			
@@ -211,8 +236,28 @@ function calBoundForce(nodeX, tNo, direction)
 	 		forc = 0;
 	 	}
 	}
+	/*vectorBound = new vector(angl,forc);
+	//document.getElementById('textar').innerHTML += "TimeForce " + Tx + " " + Ty + " \n";
 
-	var vectorCur = new vector(angl, forc);
+	if(rp<nodeX.timeStamp-30)
+ 	{
+ 		forcT = 1/2*Math.abs(nodeX.timeStamp-rp);
+ 		anglT = getBearingAngle(cenPoint, nodeX);
+ 	}
+ 	else if(rp>nodeX.timeStamp+30)
+ 	{
+ 		forcT = 1/2*Math.abs(nodeX.timeStamp-rp);
+ 		anglT = getBearingAngle(nodeX, cenPoint);
+ 	}
+ 	else
+ 	{
+ 		forcT = 0;
+ 		anglT = 0;
+ 	}
+ 	vectorTime = new vector(anglT,forcT);
+
+	var vectorCur = fAdd(vectorTime,vectorBound);*/
+	var vectorCur = new vector(angl,forc);
     return vectorCur;
 }
 
@@ -229,7 +274,7 @@ function calCircleForce(nodeX)
 	cx = nodeX.x;
 	cy = nodeX.y;
 
-	var point = new circle(0,0,0);
+	var point = new circle(0,0,0,0);
 	d = calDistance(nodeX,point);
 	
 	if(d>(centerR-nodeX.radius))
@@ -280,28 +325,11 @@ function calRepulsionForce(nodeX, nodeY)
 }
 
 
-//求两力之和
-function fAdd(vectorX, vectorY)
-{
-	var vectorF = new vector(0,0);
-	var aX = vectorX.force * Math.cos((Math.PI / 180.0) * vectorX.angle);
-	var aY = vectorX.force * Math.sin((Math.PI / 180.0) * vectorX.angle);
-	var bX = vectorY.force * Math.cos((Math.PI / 180.0) * vectorY.angle);
-	var bY = vectorY.force * Math.sin((Math.PI / 180.0) * vectorY.angle);
-	aX = aX + bX;
-	aY = aY + bY;
-	var nodeStart = new circle(0,0,0);
-	var nodeEnd = new circle(aX,aY,0);
-	vectorF.angle = getBearingAngle(nodeStart, nodeEnd);
-	vectorF.force = calDistance(nodeStart, nodeEnd);
-	
-	return vectorF;
-}
 
 
 function moveTo(nodeX,vectorX)
 {
-	var nodeY = new circle(0,0,nodeX.radius);
+	var nodeY = new circle(0,0,nodeX.radius,0);
 	nodeY.x = nodeX.x + vectorX.force * Math.cos(vectorX.angle *Math.PI/180);
 	nodeY.y = nodeX.y + vectorX.force * Math.sin(vectorX.angle *Math.PI/180);
 	return nodeY;
@@ -462,7 +490,7 @@ function drawSpirals(canId,biases)
 		{	
 			currentX = currentR * Math.cos(angle*Math.PI/180) + centerX;
 			currentY = currentR * Math.sin(angle*Math.PI/180) + centerY;
-			point = new circle(currentX, currentY, 0);
+			point = new circle(currentX, currentY, 0, 0);
 			spiralElements.push(point);
 			angle = angle + delta;
 			currentR = a + b*(angle + biases[i]);
@@ -497,7 +525,7 @@ function draw(canId){
 	var ctx = context.getContext("2d");
 	ctx.clearRect(0, 0, 1000, 800); 
 	
-	initial();	
+	initial(Attribute);	
 
 	/*drawCircles(canId, Attribute);
 	drawSpirals(canId, T);
